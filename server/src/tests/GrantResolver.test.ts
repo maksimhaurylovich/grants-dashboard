@@ -1,7 +1,7 @@
 import { createConnection, getConnection } from "typeorm";
-import { graphql, buildSchema } from "graphql";
+import { buildSchema } from "type-graphql";
+import { graphql } from "graphql";
 import { GrantResolver } from "../resolvers/GrantResolver";
-import { Grant } from "../entity/Grant";
 
 beforeAll(async () => {
     await createConnection();
@@ -14,7 +14,7 @@ afterAll(async () => {
 
 test("Create and query grant", async () => {
     const schema = await buildSchema({
-        resolvers: [GrantResolver],
+      resolvers: [GrantResolver],
     });
 
     const mutation = `
@@ -28,9 +28,6 @@ test("Create and query grant", async () => {
     }
   `;
 
-    const response = await graphql(schema, mutation);
-    expect(response.data?.createGrant.name).toBe("Test Grant");
-
     const query = `
     query {
       grants {
@@ -42,6 +39,9 @@ test("Create and query grant", async () => {
     }
   `;
 
-    const queryResponse = await graphql(schema, query);
-    expect(queryResponse.data?.grants.length).toBeGreaterThan(0);
+    const response = await graphql({ schema, source: mutation });
+    expect((response.data as any).createGrant.name).toBe("Test Grant");
+
+    const queryResponse = await graphql({ schema, source: query });
+    expect((queryResponse.data as any).grants.length).toBeGreaterThan(0);
 });

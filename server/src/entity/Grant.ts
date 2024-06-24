@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
-import { ObjectType, Field, ID } from 'type-graphql';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { ObjectType, Field, ID } from "type-graphql";
 
 @ObjectType()
 @Entity()
@@ -10,13 +10,29 @@ export class Grant extends BaseEntity {
 
     @Field()
     @Column()
-    name: string;
+    foundationName: string;
 
     @Field()
     @Column()
-    description: string;
+    grantName: string;
 
     @Field()
     @Column()
-    status: string; // "approved" or other status
+    status: string;
+
+    @Field()
+    @Column("float")
+    averageAmount: number;
+
+    @Field()
+    @Column()
+    deadline: string;
+
+    @Field()
+    @Column()
+    matchDate: string;
+
+    @Field()
+    @Column()
+    location: string;
 }

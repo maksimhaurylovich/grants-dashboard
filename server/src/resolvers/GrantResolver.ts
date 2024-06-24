@@ -4,7 +4,7 @@ import { Grant } from "../entity/Grant";
 @Resolver()
 export class GrantResolver {
     @Query(() => [Grant])
-    async grants() {
+    async getGrants() {
         return Grant.find();
     }
 
